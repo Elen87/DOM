@@ -1,5 +1,5 @@
 # Домашнее задание к занятию "2. DOM"
-
+[![Deploy to GitHub Pages](https://github.com/Elen87/game-gnomes/actions/workflows/deploy.yml/badge.svg)](https://github.com/Elen87/game-gnomes/actions/workflows/deploy.yml)
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ можно использовать любой менеджер пакетов
@@ -37,3 +37,4 @@ Copyright gfycat.com
 
 **В качестве результата пришлите проверяющему ссылку на ваш GitHub-проект. Не забудьте установить бейджик сборки.**
 
+ 
