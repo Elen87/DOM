@@ -1,7 +1,17 @@
+
 import gnomeImage from '../img/goblin.png';
 
+// Именованные константы для игры
+const DEFAULT_BOARD_SIZE = 4;
+const DEFAULT_MOVE_INTERVAL = 1000; // Интервал перемещения в миллисекундах (1 секунда)
+const MAX_MISSES = 5; // Максимальное количество промахов для окончания игры
+const GNOME_SIZE = 80; // Размер гнома в процентах
+const ANIMATION_DURATION = 0.3; // Длительность анимации в секундах
+const POSITION_TOP = 50; // Позиция сверху в процентах
+const POSITION_LEFT = 50; // Позиция слева в процентах
+
 export default class Game {
-  constructor(boardSize = 4) {
+  constructor(boardSize = DEFAULT_BOARD_SIZE) {
     this.boardSize = boardSize;
     this.cells = [];
     this.gnomeElement = null;
@@ -28,11 +38,12 @@ export default class Game {
     this.boardElement.innerHTML = '';
     this.cells = [];
 
-    for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+    const totalCells = this.boardSize * this.boardSize;
+    for (let i = 0; i < totalCells; i++) {
       const cell = document.createElement('div');
       cell.className = 'cell';
       cell.dataset.index = i;
-      this.boardElement.appendChild(cell);
+      this.boardElement.append(cell);
       this.cells.push(cell);
     }
   }
@@ -42,14 +53,15 @@ export default class Game {
     this.gnomeElement.src = gnomeImage;
     this.gnomeElement.className = 'gnome';
     this.gnomeElement.alt = 'Gnome';
-    this.gnomeElement.style.width = '80%';
-    this.gnomeElement.style.height = '80%';
+    this.gnomeElement.style.width = `${GNOME_SIZE}%`;
+    this.gnomeElement.style.height = `${GNOME_SIZE}%`;
     this.gnomeElement.style.position = 'absolute';
-    this.gnomeElement.style.top = '50%';
-    this.gnomeElement.style.left = '50%';
+    this.gnomeElement.style.top = `${POSITION_TOP}%`;
+    this.gnomeElement.style.left = `${POSITION_LEFT}%`;
     this.gnomeElement.style.transform = 'translate(-50%, -50%)';
     this.gnomeElement.style.cursor = 'pointer';
     this.gnomeElement.style.pointerEvents = 'auto';
+    this.gnomeElement.style.transition = `all ${ANIMATION_DURATION}s ease`;
   }
 
   addEventListeners() {
@@ -66,7 +78,7 @@ export default class Game {
     });
   }
 
-  start(moveInterval = 1000) {
+  start(moveInterval = DEFAULT_MOVE_INTERVAL) {
     if (this.isRunning) return;
 
     this.isRunning = true;
@@ -92,7 +104,7 @@ export default class Game {
     this.isRunning = false;
 
     if (this.gnomeElement && this.gnomeElement.parentNode) {
-      this.gnomeElement.parentNode.removeChild(this.gnomeElement);
+      this.gnomeElement.remove();
     }
   }
 
@@ -119,15 +131,16 @@ export default class Game {
     }
 
     if (this.gnomeElement.parentNode) {
-      this.gnomeElement.parentNode.removeChild(this.gnomeElement);
+      this.gnomeElement.remove();
     }
 
-    this.cells[newPosition].appendChild(this.gnomeElement);
+    this.cells[newPosition].append(this.gnomeElement);
     this.currentPosition = newPosition;
   }
 
   getRandomPosition() {
-    return Math.floor(Math.random() * (this.boardSize * this.boardSize));
+    const totalCells = this.boardSize * this.boardSize;
+    return Math.floor(Math.random() * totalCells);
   }
 
   hit() {
@@ -149,7 +162,7 @@ export default class Game {
       this.onMissesUpdate(this.misses);
     }
 
-    if (this.misses >= 5) {
+    if (this.misses >= MAX_MISSES) {
       this.gameOver();
     }
   }
@@ -175,8 +188,9 @@ export default class Game {
       this.onGameEnd(this.score);
     }
 
+    // Проверяем, не в тестовом ли мы окружении
     if (typeof process === 'undefined' || process.env.NODE_ENV !== 'test') {
-      alert(`Игра окончена! Ваш счёт: ${this.score}`); // eslint-disable-line no-alert
+      alert(`Игра окончена! Ваш счёт: ${this.score}`);
     }
   }
 

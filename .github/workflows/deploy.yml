@@ -1,11 +1,12 @@
-name: Deploy to GitHub Pages
+
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch:
+  pull_request:
+    branches: [ main, master ]
 
-# Добавляем явные permissions
 permissions:
   contents: write
   pages: write
@@ -14,26 +15,27 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      
+          cache: 'npm'
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run tests
         run: npm test
-      
-      - name: Build
+
+      - name: Build project
         run: npm run build
-      
-      - name: Deploy
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,4 +45,3 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
           keep_files: false
           force_orphan: true
-          

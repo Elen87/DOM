@@ -1,5 +1,7 @@
 # Домашнее задание к занятию "2. DOM"
-[![Deploy to GitHub Pages](https://github.com/Elen87/DOM/actions/workflows/deploy.yml/badge.svg)](https://github.com/Elen87/DOM/actions/workflows/deploy.yml)
+[![Build and Deploy to GitHub Pages](https://github.com/Elen87/DOM/actions/workflows/deploy.yml/badge.svg)](https://github.com/Elen87/DOM/actions/workflows/deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-green)](https://elen87.github.io/DOM/)
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ можно использовать любой менеджер пакетов

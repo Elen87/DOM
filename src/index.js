@@ -1,24 +1,13 @@
+
 import './styles/main.css';
 import Game from './js/Game';
 
-const game = new Game(4);
+const BOARD_SIZE = 4; // Размер игрового поля 4x4
+const game = new Game(BOARD_SIZE);
 const boardElement = document.getElementById('game-board');
 const resetBtn = document.getElementById('reset-btn');
 
 game.init(boardElement);
-
-game.onScoreUpdate = (score) => {
-  console.log(`Score: ${score}`);
-};
-
-game.onMissesUpdate = (misses) => {
-  console.log(`Misses: ${misses}`);
-};
-
-game.onGameEnd = (finalScore) => {
-  console.log(`Game Over! Final score: ${finalScore}`);
-};
-
 game.start();
 
 resetBtn.addEventListener('click', () => {
